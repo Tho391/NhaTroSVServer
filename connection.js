@@ -6,10 +6,10 @@ var connection=mysql.createConnection({
       // password: '123456',
       // database: 'quanlynhatro'
 
-      host: 'id11622526_quanlynhatro',
-      user: 'id11622526_root',
-      password: '5LDN9RK2YLFQGu',
-      database: 'localhost'
+      host: 'den1.mysql1.gear.host',
+      user: 'quanlynhatro1',
+      password: 'Xs040rFRP5?-',
+      database: 'quanlynhatro1'
 
 });
 
