@@ -1,10 +1,16 @@
 var mysql = require('mysql');
 
 var connection=mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '123456',
-      database: 'quanlynhatro'
+      // host: 'localhost',
+      // user: 'root',
+      // password: '123456',
+      // database: 'quanlynhatro'
+
+      host: 'id11622526_quanlynhatro',
+      user: 'id11622526_root',
+      password: '5LDN9RK2YLFQGu',
+      database: 'localhost'
+
 });
 
 //connection.connect();
