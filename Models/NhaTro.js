@@ -9,7 +9,7 @@ function getAllpost(req, res, next){
       throw err;
     }else{
       // console.log(rows);
-      res.status(201).json({ Apartments: rows });
+      res.status(201).json(rows);
     }
   });
 }
