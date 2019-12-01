@@ -3,20 +3,44 @@ var db = require('../connection');
 var conn = db.getConnection();
 
 function getAllpost(req, res, next) {
-  var queryString = "SELECT DISTINCT idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,localX, localY, ImageHinh " +
-    "FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,quanlynhatro1.duong, quanlynhatro1.image " +
-    "where nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idDuong=duong.idDuong and nhatro.idImage = image.idImage;";
-  var query =
-    conn.query(queryString, function (err, rows) {
-      if (err) {
-        throw err;
-      } else {
-        // console.log(rows);
-        res.status(201).json(rows);
-      }
-    });
+  var query = conn.query(`SELECT DISTINCT nhatro.idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%y-%m-%d") as date,ImageHinh,ImageTen, localX, localY
+  FROM nhatro,quan,thanhpho,duong,image 
+  where nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idDuong=duong.idDuong and nhatro.idImage=image.idImage;`, function (err, rows) {
+    if (err) {
+      throw err;
+    } else {
+      console.log(rows);
+      res.status(201).json(rows);
+    }
+  });
+}
+
+function InsetNhaTro(req, res, next) {
+  var query = conn.query(`call InsertNhaTro(${req.body.idnhatro},'${req.body.tenchutro}',${req.body.sdt},${req.body.idquan},${req.body.idthanhpho},${req.body.idduong},${req.body.localx},${req.body.localy},${req.body.localz},${req.body.idimage},${req.body.gia});`, function (err, rows) {
+    if (err) {
+      throw err;
+    } else {
+      // console.log(rows);
+      res.status(201).json({ data: rows });
+    }
+  });
+}
+
+function LayDanhSachBL(req, res, next) {
+  var query = conn.query(`select IdNguoiDung,noidung
+  from binhluan
+  where binhluan.idNhaTro=${req.body.idnhatro};`, function (err, rows) {
+    if (err) {
+      throw err;
+    } else {
+      // console.log(rows);
+      res.status(201).json({ data: rows });
+    }
+  });
 }
 
 module.exports = {
-  getAllpost: getAllpost
+  getAllpost: getAllpost,
+  InsetNhaTro: InsetNhaTro,
+  LayDanhSachBL: LayDanhSachBL
 }
