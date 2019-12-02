@@ -3,13 +3,26 @@ var db = require('../connection');
 var conn = db.getConnection();
 
 function getAllpost(req, res, next) {
-  var query = conn.query(`SELECT DISTINCT nhatro.idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,ImageHinh,ImageTen, localX, localY
+  var query = conn.query(`SELECT DISTINCT nhatro.idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,ImageHinh,ImageTen, localX, localY,chitiet
   FROM nhatro,quan,thanhpho,duong,image 
   where nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idDuong=duong.idDuong and nhatro.idImage=image.idImage;`, function (err, rows) {
     if (err) {
       throw err;
     } else {
       console.log(rows);
+      res.status(201).json(rows);
+    }
+  });
+}
+
+function getAllpostID(req, res, next){
+  var query=conn.query(`SELECT DISTINCT  TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,ImageHinh,ImageTen,localX, localY,chitiet
+  FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,quanlynhatro1.duong,quanlynhatro1.image 
+  where nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idDuong=duong.idDuong and nhatro.idImage=image.idImage and nhatro.idNhatro=${req.body.idnhatro};`, function(err,rows){
+    if(err){
+      throw err;
+    }else{
+       console.log(rows);
       res.status(201).json(rows);
     }
   });
@@ -39,8 +52,35 @@ function LayDanhSachBL(req, res, next) {
   });
 }
 
+
+function LayThongTinNguoiDung(req, res, next){
+  var query=conn.query(`SELECT nguoidung.Ho,nguoidung.Ten,nguoidung.DiaChi,nguoidung.sodt,nguoidung.email,nguoidung.photourl 
+  FROM nguoidung WHERE nguoidung.idNguoiDung=${req.body.idNguoiDung};`,function(err,rows){
+    if(err){
+      throw err;
+    }else{
+      // console.log(rows);
+      res.status(201).json({ data: rows });
+    }
+  });
+}
+
+function ThemBinhLuan(req, res, next){
+  var query=conn.query(`insert into binhluan
+  values(${req.body.idbinhluan},${req.body.idnguoidung},${req.body.idnhatro},'${req.body.noidung}');`,function(err,rows){
+    if(err){
+      throw err;
+    }else{
+      res.status(201).json({ data: rows });
+    }
+  });
+}
+
 module.exports = {
   getAllpost: getAllpost,
   InsetNhaTro: InsetNhaTro,
-  LayDanhSachBL: LayDanhSachBL
+  LayDanhSachBL: LayDanhSachBL,
+  getAllpostID: getAllpostID,
+  LayThongTinNguoiDung: LayThongTinNguoiDung,
+  ThemBinhLuan: ThemBinhLuan
 }
