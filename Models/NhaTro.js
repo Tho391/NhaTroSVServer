@@ -3,7 +3,7 @@ var db = require('../connection');
 var conn = db.getConnection();
 
 function getAllpost(req, res, next) {
-  var query = conn.query(`SELECT DISTINCT nhatro.idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%dd/%MM/%yyy") as date,ImageHinh,ImageTen, localX, localY
+  var query = conn.query(`SELECT DISTINCT nhatro.idNhaTro,TenChuTro,Sdt,TenDuong,TenQuan,TenTP,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,ImageHinh,ImageTen, localX, localY
   FROM nhatro,quan,thanhpho,duong,image 
   where nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idDuong=duong.idDuong and nhatro.idImage=image.idImage;`, function (err, rows) {
     if (err) {
