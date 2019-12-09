@@ -67,7 +67,7 @@ function LayThongTinNguoiDung(req, res, next){
 
 function ThemBinhLuan(req, res, next){
   var query=conn.query(`insert into binhluan
-  values(${req.body.idbinhluan},${req.body.idnguoidung},${req.body.idnhatro},'${req.body.noidung}');`,function(err,rows){
+  values(${req.body.idnguoidung},${req.body.idnhatro},'${req.body.noidung}');`,function(err,rows){
     if(err){
       throw err;
     }else{
