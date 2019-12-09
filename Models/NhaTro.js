@@ -34,7 +34,7 @@ function InsetNhaTro(req, res, next) {
       throw err;
     } else {
       // console.log(rows);
-      res.status(201).json({ data: rows });
+      res.status(201).json(rows);
     }
   });
 }
@@ -47,7 +47,7 @@ function LayDanhSachBL(req, res, next) {
       throw err;
     } else {
       // console.log(rows);
-      res.status(201).json({ data: rows });
+      res.status(201).json(rows);
     }
   });
 }
@@ -60,7 +60,7 @@ function LayThongTinNguoiDung(req, res, next){
       throw err;
     }else{
       // console.log(rows);
-      res.status(201).json({ data: rows });
+      res.status(201).json(rows);
     }
   });
 }
@@ -71,7 +71,7 @@ function ThemBinhLuan(req, res, next){
     if(err){
       throw err;
     }else{
-      res.status(201).json({ data: rows });
+      res.status(201).json(rows);
     }
   });
 }
