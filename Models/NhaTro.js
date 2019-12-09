@@ -40,9 +40,9 @@ function InsetNhaTro(req, res, next) {
 }
 
 function LayDanhSachBL(req, res, next) {
-  var query = conn.query(`select IdNguoiDung,noidung
-  from binhluan
-  where binhluan.idNhaTro=${req.body.idnhatro};`, function (err, rows) {
+  var query = conn.query(`select nguoidung.IdNguoiDung,Ho,Ten,photourl,noidung
+  from binhluan,nguoidung
+  where binhluan.IdNguoiDung = nguoidung.idNguoiDung && binhluan.idNhaTro=${req.body.idnhatro};`, function (err, rows) {
     if (err) {
       throw err;
     } else {
