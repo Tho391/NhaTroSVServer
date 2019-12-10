@@ -41,7 +41,7 @@ function InsetNhaTro(req, res, next) {
 
 function LayDanhSachBL(req, res, next) {
   var query = conn.query(`select nguoidung.IdNguoiDung,Ho,Ten,photourl,noidung
-  from binhluan,nguoidung
+  from quanlynhatro1.binhluan,quanlynhatro1.nguoidung
   where binhluan.IdNguoiDung = nguoidung.idNguoiDung && binhluan.idNhaTro=${req.body.idnhatro};`, function (err, rows) {
     if (err) {
       throw err;
@@ -55,7 +55,7 @@ function LayDanhSachBL(req, res, next) {
 
 function LayThongTinNguoiDung(req, res, next){
   var query=conn.query(`SELECT nguoidung.Ho,nguoidung.Ten,nguoidung.DiaChi,nguoidung.sodt,nguoidung.email,nguoidung.photourl 
-  FROM nguoidung WHERE nguoidung.idNguoiDung=${req.body.idNguoiDung};`,function(err,rows){
+  FROM quanlynhatro1.nguoidung WHERE nguoidung.idNguoiDung=${req.body.idNguoiDung};`,function(err,rows){
     if(err){
       throw err;
     }else{
@@ -66,8 +66,8 @@ function LayThongTinNguoiDung(req, res, next){
 }
 
 function ThemBinhLuan(req, res, next){
-  var query=conn.query(`insert into binhluan
-  values(null,${req.body.idnguoidung},${req.body.idnhatro},'${req.body.noidung}');`,function(err,rows){
+  var query=conn.query(`insert into quanlynhatro1.binhluan
+  values(null,${req.body.idnguoidung},${req.body.idnhatro},'${req.body.noidung}',null);`,function(err,rows){
     if(err){
       throw err;
     }else{
