@@ -23,7 +23,7 @@ function getAllpostID(req, res, next){
       throw err;
     }else{
        console.log(rows);
-      res.status(201).json(rows);
+      res.status(201).json(rows[0]);
     }
   });
 }
