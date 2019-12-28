@@ -10,5 +10,6 @@ router.post('/LayDanhSachBL',getall.LayDanhSachBL);
 router.post('/getnhatroid',getall.getAllpostID);
 router.post('/laythongtinnguoidung',getall.LayThongTinNguoiDung);
 router.post('/ThemBinhLuan',getall.ThemBinhLuan);
+router.post('/loginuser',getall.LoginUser);
 
 module.exports = router;

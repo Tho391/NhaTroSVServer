@@ -1,4 +1,5 @@
 var db = require('../connection');
+var jwt=require('jsonwebtoken');
 
 var conn = db.getConnection();
 
@@ -76,11 +77,41 @@ function ThemBinhLuan(req, res, next){
   });
 }
 
+function LoginUser(req,res,next){
+  try{
+    var query=conn.query('SELECT Username,Password FROM quanlynhatro1.adminname;', function(err,rows){
+      if(err){
+        throw err;
+      }else{
+          var dem=0;
+          var tam=rows.length;
+          var flag=false;
+          while(tam!=0)
+          {
+              var Username=rows[dem].Username;
+              var Password=rows[dem].Password;
+              if(req.body.Username==Username && req.body.Password==Password)
+              {
+                  var token = jwt.sign({ten:'abc'},'abc',{algorithm:'HS256',expiresIn: '3h'});
+                  res.status(201).json({access_token:token});
+                  break;
+              }
+              dem++;
+              tam--;
+          };
+      }
+    });
+  }catch{
+    res.status(201).json('Error');
+  }
+}
+
 module.exports = {
   getAllpost: getAllpost,
   InsetNhaTro: InsetNhaTro,
   LayDanhSachBL: LayDanhSachBL,
   getAllpostID: getAllpostID,
   LayThongTinNguoiDung: LayThongTinNguoiDung,
-  ThemBinhLuan: ThemBinhLuan
+  ThemBinhLuan: ThemBinhLuan,
+  LoginUser: LoginUser
 }
