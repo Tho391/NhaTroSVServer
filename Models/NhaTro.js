@@ -34,7 +34,7 @@ function getAllpostID(req, res, next){
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query=conn.query(`SELECT DISTINCT  TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
+        var query=conn.query(`SELECT DISTINCT idnhatro, TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
         FROM nhatro,quan,thanhpho
         WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro=${req.body.idnhatro};`, function(err,rows){
           if(err){
