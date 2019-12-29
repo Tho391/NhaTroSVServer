@@ -11,7 +11,7 @@ function getAllpost(req, res, next) {
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query = conn.query(`SELECT DISTINCT  TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
+        var query = conn.query(`SELECT DISTINCT  idNhatro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
         FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho
         WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro;`, function (err, rows) {
           if (err) {
