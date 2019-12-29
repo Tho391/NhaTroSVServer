@@ -155,11 +155,16 @@ function LoginUser(req,res,next){
               {
                   var token = jwt.sign({ten:'abc'},'abc',{algorithm:'HS256',expiresIn: '3h'});
                   res.status(201).json({access_token:token});
+                  flag=true;
                   break;
               }
               dem++;
               tam--;
           };
+          if(flag==false)
+          {
+            res.status(201).json('Error');
+          }
       }
     });
   }catch{
