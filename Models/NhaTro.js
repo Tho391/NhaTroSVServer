@@ -11,9 +11,9 @@ function getAllpost(req, res, next) {
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query = conn.query(`SELECT DISTINCT  TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
-        FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho
-        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro;`, function (err, rows) {
+        var query = conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet,Img 
+        FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,(SELECT idNhatro as id,ImageHinh as Img FROM quanlynhatro1.image group by idNhatro) as image1
+        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id;`, function (err, rows) {
           if (err) {
             throw err;
           } else {
@@ -34,9 +34,9 @@ function getAllpostID(req, res, next){
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query=conn.query(`SELECT DISTINCT  TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet 
-        FROM quanlynhatro.nhatro,quanlynhatro.quan,quanlynhatro.thanhpho
-        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro=${req.body.idnhatro};`, function(err,rows){
+        var query=conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet,Img 
+        FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,(SELECT idNhatro as id,ImageHinh as Img FROM quanlynhatro1.image group by idNhatro) as image1
+        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id and nhatro.idNhatro=${req.body.idnhatro};`, function(err,rows){
           if(err){
             throw err;
           }else{
