@@ -11,5 +11,7 @@ router.post('/getnhatroid',getall.getAllpostID);
 router.post('/laythongtinnguoidung',getall.LayThongTinNguoiDung);
 router.post('/ThemBinhLuan',getall.ThemBinhLuan);
 router.post('/loginuser',getall.LoginUser);
+router.post('/Logingoogle',getall.LoginGoogle);
+router.post('/Dangky',getall.DangKy);
 
 module.exports = router;

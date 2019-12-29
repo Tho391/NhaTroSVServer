@@ -167,6 +167,70 @@ function LoginUser(req,res,next){
   }
 }
 
+function LoginGoogle(req,res,next){
+  try{
+    var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
+      if(err){
+        throw err;
+      }else{
+          var dem=0;
+          var tam=rows.length;
+          var flag=false;
+          while(tam!=0)
+          {
+              var Username=rows[dem].Username;
+              var Password=rows[dem].Password;
+              if(req.body.gmail==Username && req.body.id==Password)
+              {
+                  var token = jwt.sign({ten:Username},'abc',{algorithm:'HS256',expiresIn: '3h'});
+                  res.status(201).json({access_token:token});
+                  flag=true;
+                  break;
+              }
+              dem++;
+              tam--;
+          };
+
+          if(flag==false)
+          {
+            var query=conn.query(`INSERT INTO quanlynhatro1.nguoidung(Ho,Ten,photourl)
+              values('${req.body.Ho}','${req.body.Ten}','${req.body.photourl}');`, function(err,rows){
+                if(err){
+                  throw err;
+                }
+            });
+
+            var query=conn.query(`INSERT INTO quanlynhatro1.user(Username,Password)
+              values('${req.body.gmail}','${req.body.id}');`, function(err,rows){
+                if(err){
+                  throw err;
+                }
+            });
+            var token = jwt.sign({ten:req.body.gmail},'abc',{algorithm:'HS256',expiresIn: '3h'});
+            res.status(201).json({access_token:token});
+          }
+      }
+    });
+  }catch{
+    res.status(201).json('Error');
+  }
+}
+
+function DangKy(req,res,next){
+  var query=conn.query(`INSERT INTO quanlynhatro1.nguoidung(Ho,Ten,photourl)
+  values('${req.body.Ho}','${req.body.Ten}','${req.body.NgaySinh}','${req.body.DiaChi}','${req.body.sodt}','${req.body.photourl}');`, function(err,rows){
+    if(err){
+      throw err;
+    }
+  });
+  var query=conn.query(`INSERT INTO quanlynhatro1.user(Username,Password)
+      values('${req.body.Username}','${req.body.Password}');`, function(err,rows){
+        if(err){
+          throw err;
+        }
+  });
+}
+
 module.exports = {
   getAllpost: getAllpost,
   InsetNhaTro: InsetNhaTro,
@@ -174,5 +238,7 @@ module.exports = {
   getAllpostID: getAllpostID,
   LayThongTinNguoiDung: LayThongTinNguoiDung,
   ThemBinhLuan: ThemBinhLuan,
-  LoginUser: LoginUser
+  LoginUser: LoginUser,
+  LoginGoogle: LoginGoogle,
+  DangKy: DangKy
 }
