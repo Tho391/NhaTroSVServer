@@ -15,4 +15,5 @@ router.post('/Logingoogle',getall.LoginGoogle);
 router.post('/Dangky',getall.DangKy);
 router.post('/danhsachhinhanh',getall.DanhSachHinhAnh);
 
+
 module.exports = router;
