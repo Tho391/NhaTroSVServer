@@ -13,5 +13,6 @@ router.post('/ThemBinhLuan',getall.ThemBinhLuan);
 router.post('/loginuser',getall.LoginUser);
 router.post('/Logingoogle',getall.LoginGoogle);
 router.post('/Dangky',getall.DangKy);
+router.post('/danhsachhinhanh',getall.DanhSachHinhAnh);
 
 module.exports = router;

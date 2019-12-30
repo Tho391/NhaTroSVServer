@@ -23,7 +23,9 @@ function getAllpost(req, res, next) {
         });
       }
     });
-    }
+  }else{
+    res.status(201).json({data:'Error'});
+  }
 }
 
 function getAllpostID(req, res, next){
@@ -36,7 +38,8 @@ function getAllpostID(req, res, next){
       else{
         var query=conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet,Img 
         FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,(SELECT idNhatro as id,ImageHinh as Img FROM quanlynhatro1.image group by idNhatro) as image1
-        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id and nhatro.idNhatro=${req.body.idnhatro};`, function(err,rows){
+        WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id and nhatro.idNhatro=${req.body.idnhatro};`, 
+        function(err,rows){
           if(err){
             throw err;
           }else{
@@ -46,6 +49,8 @@ function getAllpostID(req, res, next){
         });
       }
     });
+  }else{
+    res.status(201).json({data:'Error'});
   }
 }
 
@@ -57,18 +62,20 @@ function InsetNhaTro(req, res, next) {
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query = conn.query(`call InsertNhaTro(${req.body.idnhatro},'${req.body.tenchutro}',${req.body.sdt},${req.body.idquan},${req.body.idthanhpho},${req.body.idduong},${req.body.localx},${req.body.localy},${req.body.localz},${req.body.idimage},${req.body.gia});`, function (err, rows) {
-          if (err) {
+        var query=conn.query(`INSERT INTO quanlynhatro1.nhatro (TenChuTro, Sdt, DiaChi, idQuan, idThanhPho, localX, localY, gia, dientich, date, chitiet) 
+        VALUES ('${req.body.tenchutro}', '${req.body.sdt}', '${req.body.diachi}', '${req.body.quan}', '${req.body.thanhpho}',
+        '${req.body.localx}', '${req.body.localy}', '${req.body.giaphong}', '${req.body.dientich}', '${req.body.date}' ,'${req.body.chitiet}');`, function(err,result){
+          if(err){
             throw err;
-          } else {
-            // console.log(rows);
+          }else{
             res.status(201).json(rows);
           }
         });
       }
     });
+  }else{
+    res.status(201).json({data:'Error'});
   }
-  
 }
 
 function LayDanhSachBL(req, res, next) {
@@ -91,8 +98,9 @@ function LayDanhSachBL(req, res, next) {
         });
       }
     });
+  }else{
+    res.status(201).json({data:'Error'});
   }
-  
 }
 
 
@@ -114,6 +122,8 @@ function LayThongTinNguoiDung(req, res, next){
         });
       }
     });
+  }else{
+    res.status(201).json({data:'Error'});
   }
 }
 
@@ -135,6 +145,8 @@ function ThemBinhLuan(req, res, next){
         });
       }
     });
+  }else{
+    res.status(201).json({data:'Error'});
   }
 }
 
@@ -236,6 +248,29 @@ function DangKy(req,res,next){
   });
 }
 
+function DanhSachHinhAnh(req,res,next){
+  if(req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase()=== 'bearer'){
+    var token =req.headers.authorization.split(' ')[1];
+    jwt.verify(token,'abc',function(err,decode){
+      if(err){
+        return res.status(201).json({data:'Error'});
+      }
+      else{
+        var query=conn.query(`SELECT idNhatro,ImageHinh
+        FROM quanlynhatro1.image
+        where idNhatro=${req.body.idnhatro};`,function(err,rows){
+          if(err){
+            throw err;
+          }else{
+            res.status(201).json(rows);
+          }
+        });
+      }
+    });
+  }else{
+    res.status(201).json({data:'Error'});
+  }
+}
 module.exports = {
   getAllpost: getAllpost,
   InsetNhaTro: InsetNhaTro,
@@ -245,5 +280,6 @@ module.exports = {
   ThemBinhLuan: ThemBinhLuan,
   LoginUser: LoginUser,
   LoginGoogle: LoginGoogle,
-  DangKy: DangKy
+  DangKy: DangKy,
+  DanhSachHinhAnh: DanhSachHinhAnh
 }
