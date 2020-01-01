@@ -247,7 +247,7 @@ function DangKy(req,res,next){
             var Username=rows[dem].Username;
             if(req.body.Username==Username)
             {
-                res.status(201).json('Da Dang Ky');
+                res.status(201).json({data:'Da Dang Ky'});
                 flag=true;
                 break;
             }
@@ -268,7 +268,7 @@ function DangKy(req,res,next){
                   return res.status(201).json({data:'Error'});
                 }
           });
-          res.status(201).json('Dang Ky Thanh Cong');
+          res.status(201).json({data:'Dang Ky Thanh Cong'});
         }
     }
   });
