@@ -11,7 +11,7 @@ function getAllpost(req, res, next) {
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query = conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet,Img 
+        var query = conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,chitiet,Img 
         FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,(SELECT idNhatro as id,ImageHinh as Img FROM quanlynhatro1.image group by idNhatro) as image1
         WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id
         order by idNhaTro desc;`, function (err, rows) {
@@ -37,7 +37,7 @@ function getAllpostID(req, res, next){
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query=conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,state,chitiet,Img 
+        var query=conn.query(`SELECT DISTINCT  idNhaTro,TenChuTro,Sdt,DiaChi,TenQuan,TenTP,localX,localY,gia,dientich,DATE_FORMAT(date,"%d/%m/%Y") as date,chitiet,Img 
         FROM quanlynhatro1.nhatro,quanlynhatro1.quan,quanlynhatro1.thanhpho,(SELECT idNhatro as id,ImageHinh as Img FROM quanlynhatro1.image group by idNhatro) as image1
         WHERE nhatro.idQuan=quan.idQuan and nhatro.idThanhPho=thanhpho.idThanhPho and nhatro.idNhatro and nhatro.idNhaTro=image1.id and nhatro.idNhatro=${req.body.idnhatro}`, 
         function(err,rows){
