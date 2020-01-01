@@ -298,6 +298,51 @@ function DanhSachHinhAnh(req,res,next){
   }
 }
 
+function DoiMK(req,res,next){
+  if(req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase()=== 'bearer'){
+    var token =req.headers.authorization.split(' ')[1];
+    jwt.verify(token,'abc',function(err,decode){
+      var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
+        if(err){
+          return res.status(201).json({data:'Error'});
+        }else{
+            var dem=0;
+            var tam=rows.length;
+            var flag=false;
+            while(tam!=0)
+            {
+                var Username=rows[dem].Username;
+                var Passwordold=rows[dem].Password;
+                if(req.body.Username==Username && req.body.Password==Passwordold)
+                {
+                    var query=conn.query(`UPDATE quanlynhatro1.user 
+                    SET Password = '${req.body.Passwordnew}' 
+                    WHERE (idUser = ${req.body.id});`,function(err,rows){
+                      if(err){
+                        throw err;
+                      }else{
+                        res.status(201).json({data:"Thanh Cong"});
+                      }
+                    });
+                    flag=true;
+                    break;
+                }
+                dem++;
+                tam--;
+            };
+  
+            if(flag==false)
+            {
+              res.status(201).json({data:"Khong thanh cong"});
+            }
+        }
+      });  
+    });
+  }else{
+    res.status(201).json({data:'Error'});
+  }
+}
+
 module.exports = {
   getAllpost: getAllpost,
   InsetNhaTro: InsetNhaTro,
@@ -308,5 +353,6 @@ module.exports = {
   LoginUser: LoginUser,
   LoginGoogle: LoginGoogle,
   DangKy: DangKy,
-  DanhSachHinhAnh: DanhSachHinhAnh
+  DanhSachHinhAnh: DanhSachHinhAnh,
+  DoiMK: DoiMK
 }
