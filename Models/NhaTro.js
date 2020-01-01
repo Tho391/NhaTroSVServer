@@ -176,12 +176,12 @@ function LoginUser(req,res,next){
           };
           if(flag==false)
           {
-            res.status(201).json('Error');
+            return res.status(201).json({data:'Error'});
           }
       }
     });
   }catch{
-    res.status(201).json('Error');
+    return res.status(201).json({data:'Error'});
   }
 }
 
@@ -189,7 +189,7 @@ function LoginGoogle(req,res,next){
   try{
     var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
       if(err){
-        throw err;
+        return res.status(201).json({data:'Error'});
       }else{
           var dem=0;
           var tam=rows.length;
@@ -214,14 +214,14 @@ function LoginGoogle(req,res,next){
             var query=conn.query(`INSERT INTO quanlynhatro1.nguoidung(Ho,Ten,photourl)
               values('${req.body.Ho}','${req.body.Ten}','${req.body.photourl}');`, function(err,rows){
                 if(err){
-                  throw err;
+                  return res.status(201).json({data:'Error'});
                 }
             });
 
             var query=conn.query(`INSERT INTO quanlynhatro1.user(Username,Password)
               values('${req.body.gmail}','${req.body.id}');`, function(err,rows){
                 if(err){
-                  throw err;
+                  return res.status(201).json({data:'Error'});
                 }
             });
             var token = jwt.sign({ten:req.body.gmail},'abc',{algorithm:'HS256',expiresIn: '3h'});
@@ -230,14 +230,14 @@ function LoginGoogle(req,res,next){
       }
     });
   }catch{
-    res.status(201).json('Error');
+    return res.status(201).json({data:'Error'});
   }
 }
 
 function DangKy(req,res,next){
   var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
     if(err){
-      throw err;
+      return res.status(201).json({data:'Error'});
     }else{
         var dem=0;
         var tam=rows.length;
@@ -256,16 +256,16 @@ function DangKy(req,res,next){
         };
         if(flag==false)
         {
-          var query=conn.query(`INSERT INTO quanlynhatro1.nguoidung(Ho,Ten,photourl)
+          var query=conn.query(`INSERT INTO quanlynhatro1.nguoidung(Ho,Ten,NgaySinh,DiaChi,sodt,photourl)
           values('${req.body.Ho}','${req.body.Ten}','${req.body.NgaySinh}','${req.body.DiaChi}','${req.body.sodt}','${req.body.photourl}');`, function(err,rows){
             if(err){
-              throw err;
+              return res.status(201).json({data:'Error'});
             }
           });
           var query=conn.query(`INSERT INTO quanlynhatro1.user(Username,Password)
               values('${req.body.Username}','${req.body.Password}');`, function(err,rows){
                 if(err){
-                  throw err;
+                  return res.status(201).json({data:'Error'});
                 }
           });
           res.status(201).json('Dang Ky Thanh Cong');
