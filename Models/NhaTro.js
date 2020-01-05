@@ -113,7 +113,7 @@ function LayThongTinNguoiDung(req, res, next){
         return res.status(201).json({data:'Error'});
       }
       else{
-        var query=conn.query(`SELECT nguoidung.Ho,nguoidung.Ten,nguoidung.DiaChi,nguoidung.sodt,nguoidung.photourl 
+        var query=conn.query(`SELECT idNguoiDung,nguoidung.Ho,nguoidung.Ten,nguoidung.DiaChi,nguoidung.sodt,nguoidung.photourl 
         FROM quanlynhatro1.nguoidung WHERE nguoidung.idNguoiDung=${req.body.idNguoiDung};`,function(err,rows){
           if(err){
             throw err;
