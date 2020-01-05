@@ -153,7 +153,7 @@ function ThemBinhLuan(req, res, next){
 
 function LoginUser(req,res,next){
   try{
-    var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
+    var query=conn.query('SELECT idUser,Username,Password FROM quanlynhatro1.User;', function(err,rows){
       if(err){
         throw err;
       }else{
@@ -164,10 +164,14 @@ function LoginUser(req,res,next){
           {
               var Username=rows[dem].Username;
               var Password=rows[dem].Password;
+              var id = rows[dem].idUser;
               if(req.body.Username==Username && req.body.Password==Password)
               {
                   var token = jwt.sign({ten:'abc'},'abc',{algorithm:'HS256',expiresIn: '3h'});
-                  res.status(201).json({access_token:token});
+                  res.status(201).json({
+                    access_token:token,
+                    userId: id
+                  });
                   flag=true;
                   break;
               }
@@ -187,7 +191,7 @@ function LoginUser(req,res,next){
 
 function LoginGoogle(req,res,next){
   try{
-    var query=conn.query('SELECT Username,Password FROM quanlynhatro1.User;', function(err,rows){
+    var query=conn.query('SELECT idUser,Username,Password FROM quanlynhatro1.User;', function(err,rows){
       if(err){
         return res.status(201).json({data:'Error'});
       }else{
