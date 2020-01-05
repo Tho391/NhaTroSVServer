@@ -118,7 +118,7 @@ function LayThongTinNguoiDung(req, res, next){
           if(err){
             throw err;
           }else{
-            res.status(201).json(rows);
+            res.status(201).json(rows[0]);
           }
         });
       }
